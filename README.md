@@ -15,6 +15,7 @@ note: if n is too large, stackoverflow may occur  because the recursion is too d
 Dual Intel(R) Xeon(R) CPU E5-2623 v4 @ 2.60GHz 
 (total: 2 sockets * 4 cores = 8 cores)
 
+### list size: 3,000,000
 1 thread:
 ```log
 $ time ./a.out 3000000
@@ -52,3 +53,45 @@ sys     0m2.664s
 ```
 
 4.95 speedup
+
+
+### list size: 30,000,000
+1 thread:
+```log
+$ time ./a.out 30000000
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+real    2m7.997s
+user    3m29.026s
+sys     0m34.026s
+```
+
+16 threads:
+```log
+$ time ./a.out 30000000
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+real    0m25.913s
+user    4m46.079s
+sys     0m25.329s
+```
+
+4.94 speedup
