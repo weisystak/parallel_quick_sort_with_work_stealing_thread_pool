@@ -52,36 +52,40 @@ public:
 
 
 template<typename T>
-std::list<T> parallel_quick_sort(std::list<T>& input)
+std::list<T> parallel_quick_sort(std::list<T>& input, int cpus = std::thread::hardware_concurrency())
 {
     if(input.empty())
     {
         return input;
     }
-    sorter<T> s(thread::hardware_concurrency());
+    sorter<T> s(cpus);
     return s.do_sort(input);
 }
 
 int main(int argc, char* argv[])
 {
-    // sorter<list<int>>::calls.store(0);
-    std::random_device rd;
-    std::uniform_int_distribution<int> dist(0, 999'999);
+    std::default_random_engine eng(1);
+    std::uniform_int_distribution<int> dist(0, 1'000'000);
     list<int> l;
-    int n = 3000000;
+    int n = 3'000'000;
     if(argc==2)
         n = atoi(argv[1]);
+    
     while(n--)
     {
-        l.push_back(dist(rd));
+        l.push_back(dist(eng));
     }
+  
 
     l = parallel_quick_sort(l);
+    
+    
+    
 
-    // print first 40 elements
+    // print first 10 elements
     auto a = l.begin();
     auto b = a;
-    advance(b, 40);
+    advance(b, 10);
     for(;a!=b;a++)
     {
         cout<<*a<<endl;
